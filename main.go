@@ -47,7 +47,7 @@ func Train(Network network.Net, Doing graphical.GoTo) {
 	epochs := 1000
 	learning_rate := 0.1
 
-	err := network.Train(x_train, y_train, epochs, learning_rate, Network)
+	err := network.Train(x_train, y_train, epochs, learning_rate, Network, 1)
 	for i := 0; i < len(Network.Layer); i++ {
 
 		tmp, tmp1 := Network.Layer[i].GetData()

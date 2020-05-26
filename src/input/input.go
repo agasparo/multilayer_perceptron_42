@@ -10,7 +10,7 @@ import (
 // input_size = number of input neurons
 // output_size = number of output neurons
 
-func Init(Self *layer.FC, input_size, output_size, t int) {
+func Init(Self *layer.FC, input_size, output_size int) {
 
 	var tmp, local *mat.Dense
 

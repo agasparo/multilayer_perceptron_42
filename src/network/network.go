@@ -51,7 +51,7 @@ func Predict(Self *Net, x *mat.Dense) (*mat.Dense) {
 	return (mat.NewDense(len(res), 1, res))
 }
 
-func Train(x, y *mat.Dense, epochs int, learning_rate float64, Self Net) (float64) {
+func Train(x, y *mat.Dense, epochs int, learning_rate float64, Self Net, outpout_s int) (float64) {
 
 	var err float64
 	var outpout, error *mat.Dense
@@ -68,14 +68,14 @@ func Train(x, y *mat.Dense, epochs int, learning_rate float64, Self Net) (float6
 
 			// forward propagation
 			
-			outpout = mat.NewDense(1, lines, transform(data_x, j, lines))
+			outpout = mat.NewDense(outpout_s, lines, transform(data_x, j, lines))
 			for z := 0; z < len(Self.Layer); z++ {
 				outpout = Self.Layer[z].Forward_propagation(outpout)
 			}
 
 			// compute loss (for display purpose only)
 	
-			real := mat.NewDense(1, y_lines, transform(data_y, j, y_lines))
+			real := mat.NewDense(outpout_s, y_lines, transform(data_y, j, y_lines))
 			err += Self.Loss(real, outpout)
 
 			// backward propagation
