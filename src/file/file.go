@@ -40,6 +40,9 @@ func SaveFile(data [][]float64, name string, ner float64) {
         check(err, name, 0)
         return
     }
+    defer file.Close()
+    file.Truncate(0)
+	file.Seek(0,0)
     _, err = file.Write(buffer.Bytes())
     if err != nil {
         check(err, name, 0)
