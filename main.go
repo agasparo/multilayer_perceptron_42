@@ -44,7 +44,7 @@ func Train(Network network.Net, Doing graphical.GoTo) {
 	x_train := mat.NewDense(2, 4, x)
 	y_train := mat.NewDense(1, 4, y)
 
-	epochs := 10000
+	epochs := 1000
 	learning_rate := 0.1
 
 	err := network.Train(x_train, y_train, epochs, learning_rate, Network)
