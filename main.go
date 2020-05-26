@@ -29,7 +29,15 @@ func main() {
 		create.ChangeDatas(&Network, datas)
 		Predict(Network)
 	} else {
-		Train(Network, Doing, final)
+
+		// lire le fichier de data
+		ToLearn := file.Learn{}
+		if file.ReadFile("data/data.csv", &ToLearn) == 0 {
+			return
+		}
+		fmt.Println(final)
+		// trier les datas
+		//Train(Network, Doing, final)
 	}
 }
 

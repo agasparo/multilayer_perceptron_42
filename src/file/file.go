@@ -7,6 +7,9 @@ import (
 	"os"
 	"bytes"
 	"io/ioutil"
+	"encoding/csv"
+	"strconv"
+	"io"
 )
 
 type Base struct {
@@ -21,6 +24,50 @@ type Layers_json struct {
 	Type 	string
 	Weigths []float64
 	Bias 	[]float64
+}
+
+type Learn struct {
+
+	Datas 	map[int][]float64
+	Ret 	int
+}
+
+func ReadFile(file_name string, TL *Learn) (int) {
+
+	var Add, got []float64
+
+	TL.Datas = make(map[int][]float64)
+	TL.Ret = 1
+
+	csvfile, err := os.Open(file_name)
+	if err != nil {
+		Response.Print(fmt.Sprintf("%s\n", err))
+		return (0)
+	}
+	r := csv.NewReader(csvfile)
+	for {
+		record, err := r.Read()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			Response.Print(fmt.Sprintf("%s\n", err))
+			return (0)
+		}
+		Add = got
+		for i := 1; i < len(record); i++ {
+			
+			if record[i] == "M" {
+				record[i] = "1"
+			} else if record[i] == "B" {
+				record[i] = "0"
+			}
+			a, _ := strconv.ParseFloat(record[i], 64)
+			Add = append(Add, a)
+		}
+		TL.Datas[len(TL.Datas)] = Add
+	}
+	return (1)
 }
 
 func SaveFile(data [][]float64, name string, ner float64) {
