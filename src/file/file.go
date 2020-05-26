@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"bytes"
+	"io/ioutil"
 )
 
 type Base struct {
@@ -79,4 +80,33 @@ func check(e error, name string, v int) {
     		Response.Sucess(fmt.Sprintf("File %s created", name))
     	}
     }
+}
+
+func CompErr(err float64, file_name string) (int) {
+
+	file, e := ioutil.ReadFile(file_name)
+	if e != nil {
+		check(e, file_name, 0)
+		return (0)
+	}
+
+	data := Base{}
+	_ = json.Unmarshal([]byte(file), &data)
+	if data.Error < err {
+		return (-1)
+	}
+	return (1)
+}
+
+func GetDatas(file_name string) (int, Base) {
+
+	file, e := ioutil.ReadFile(file_name)
+	if e != nil {
+		check(e, file_name, 0)
+		return 1, Base{}
+
+	}
+	data := Base{}
+	_ = json.Unmarshal([]byte(file), &data)
+	return 0, data
 }

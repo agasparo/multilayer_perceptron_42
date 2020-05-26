@@ -12,6 +12,7 @@ type Layers interface {
 	Forward_propagation(*mat.Dense) (*mat.Dense)
 	Backward_propagation(*mat.Dense, float64) (*mat.Dense)
 	GetData() ([]float64, []float64)
+	ModifiData([]float64, []float64)
 }
 
 type FC struct {
@@ -29,6 +30,22 @@ type AC struct {
 	Input 				*mat.Dense
 	Output 				*mat.Dense
 }
+
+// modifi bias and weigths
+
+func (Self *FC) ModifiData(w []float64, b []float64) {
+
+	x, y := Self.Weights.Dims()
+	Self.Weights = *mat.NewDense(x, y, w)
+	x, y = Self.Bias.Dims()
+	Self.Bias = *mat.NewDense(x, y, b)
+}
+
+func (Self *AC) ModifiData(w []float64, b []float64) {
+
+	
+}
+
 
 // return Weigths and Bias for each c
 

@@ -1,8 +1,6 @@
 package graphical
 
 import (
-	"io/ioutil"
-	"fmt"
 	"Response"
 	"in"
 	"strings"
@@ -32,11 +30,6 @@ func ShowMain(D *GoTo) {
 		[]string{ "L", "P" },
 		[]string{ "XOR" },	
 	}
-
-	read, _ := ioutil.ReadFile("data/logo.txt")
-	Response.PrintVerboseStep(string(read))
-
-	fmt.Println("")
 
 	for i := 0; i < len(Choice); i++ {
 

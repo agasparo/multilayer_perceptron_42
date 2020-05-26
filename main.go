@@ -6,6 +6,9 @@ import (
 	"fmt"
 	"file"
 	"graphical"
+	"in"
+	"Response"
+	"create"
 )
 
 func main() {
@@ -17,7 +20,13 @@ func main() {
 
 	Doing.Create(&Network)
 	if Doing.ToDo == 1 {
-		// set les poids et le bias sur le reseau
+
+		err, datas := file.GetDatas("data/" + Doing.Name + "/res.json")
+		if err == 1 {
+			Response.Print("Error with your file")
+			return
+		}
+		create.ChangeDatas(&Network, datas)
 		Predict(Network)
 	} else {
 		Train(Network, Doing)
@@ -25,6 +34,9 @@ func main() {
 }
 
 func Train(Network network.Net, Doing graphical.GoTo) {
+
+	var data [][]float64
+	var savefile string
 
 	x := []float64{ 0, 0, 0, 1, 1, 0, 1, 1 }
 	y := []float64{ 0, 1, 1, 0 }
@@ -36,20 +48,33 @@ func Train(Network network.Net, Doing graphical.GoTo) {
 	learning_rate := 0.1
 
 	err := network.Train(x_train, y_train, epochs, learning_rate, Network)
-
-	// save bias, weigth
-	var data [][]float64
-
 	for i := 0; i < len(Network.Layer); i++ {
 
 		tmp, tmp1 := Network.Layer[i].GetData()
 		data = append(data, tmp, tmp1)
 	}
-	// demander stocker le reseau si le poid est moins bon
-	file.SaveFile(data, "data/" + Doing.Name + "/res.json", err)
+	
+	savefile = "data/" + Doing.Name + "/res.json" 
+	if file.CompErr(err, savefile) == -1 {
+		_, res := in.ReadSTDIN("Your error is more than your previous save file, would you like to save it ? [Y/N]", 1)
+		for res != "Y" && res != "N" {
+			Response.Print("Response must be Y or N")
+			_, res = in.ReadSTDIN("Your error is more than your previous save file, would you like to save it ? [Y/N]", 1)
+		}
+		if res == "Y" {
+			file.SaveFile(data, savefile, err)
+		}
+	} else {
+		file.SaveFile(data, savefile, err)
+	}
 
-	// repreenter le reseau graphiquement
+	// representer le reseau graphiquement
+	
+
+
 	// afficher le graph d'apprentissage
+	
+
 }
 
 func Predict(Network network.Net) {

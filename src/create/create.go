@@ -6,7 +6,19 @@ import (
 	"hidden"
 	"input"
 	"network"
+	"file"
 )
+
+func ChangeDatas(Network *network.Net, data file.Base) {
+
+	for i := 0; i < len(data.Layers); i++ {
+
+		if data.Layers[i].Weigths != nil && data.Layers[i].Bias != nil {
+
+			Network.Layer[i].ModifiData(data.Layers[i].Weigths, data.Layers[i].Bias)
+		}
+	}
+}
 
 func XOR(Network *network.Net) {
 
