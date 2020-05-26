@@ -18,7 +18,7 @@ func main() {
 
 	graphical.ShowMain(&Doing)
 
-	Doing.Create(&Network)
+	final := Doing.Create(&Network)
 	if Doing.ToDo == 1 {
 
 		err, datas := file.GetDatas("data/" + Doing.Name + "/res.json")
@@ -29,11 +29,11 @@ func main() {
 		create.ChangeDatas(&Network, datas)
 		Predict(Network)
 	} else {
-		Train(Network, Doing)
+		Train(Network, Doing, final)
 	}
 }
 
-func Train(Network network.Net, Doing graphical.GoTo) {
+func Train(Network network.Net, Doing graphical.GoTo, final int) {
 
 	var data [][]float64
 	var savefile string
@@ -47,7 +47,7 @@ func Train(Network network.Net, Doing graphical.GoTo) {
 	epochs := 1000
 	learning_rate := 0.1
 
-	err := network.Train(x_train, y_train, epochs, learning_rate, Network, 1)
+	err := network.Train(x_train, y_train, epochs, learning_rate, Network, final)
 	for i := 0; i < len(Network.Layer); i++ {
 
 		tmp, tmp1 := Network.Layer[i].GetData()

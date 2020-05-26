@@ -16,7 +16,7 @@ func ChangeDatas(Network *network.Net, data file.Base) {
 	}
 }
 
-func XOR(Network *network.Net) {
+func XOR(Network *network.Net) (int) {
 
 	AllInput := input.Create(2)
 	AllActive := hidden.Create(2)
@@ -33,9 +33,11 @@ func XOR(Network *network.Net) {
 	network.AddAc(Network, AllActive[1])
 
 	network.Use(Network, loss.Mse, loss.Mse_prime)
+
+	return (1)
 }
 
-func MNIST(Network *network.Net) {
+func MNIST(Network *network.Net) (int) {
 
 	AllInput := input.Create(3)
 	AllActive := hidden.Create(3)
@@ -56,4 +58,6 @@ func MNIST(Network *network.Net) {
 	network.AddAc(Network, AllActive[2])
 
 	network.Use(Network, loss.Mse, loss.Mse_prime)
+
+	return (10)
 }

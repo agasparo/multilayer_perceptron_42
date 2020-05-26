@@ -8,7 +8,7 @@ import (
 	"create"
 )
 
-type CreateAl func(*network.Net)
+type CreateAl func(*network.Net) (int)
 
 type GoTo struct {
 
