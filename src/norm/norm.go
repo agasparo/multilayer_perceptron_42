@@ -1,10 +1,10 @@
 package norm
 
 import (
-
+	"maths"
 )
 
-func NormalizeAllData(Data map[int][]float64) {
+func Normalize(Data map[int][]float64) {
 
 	for i := 0; i < len(Data); i++ {
 

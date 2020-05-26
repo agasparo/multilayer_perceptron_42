@@ -28,8 +28,9 @@ type Layers_json struct {
 
 type Learn struct {
 
-	Datas 	map[int][]float64
-	Ret 	int
+	Datas 		map[int][]float64
+	Response	[]float64
+	Ret 		int
 }
 
 func ReadFile(file_name string, TL *Learn) (int) {
@@ -57,22 +58,25 @@ func ReadFile(file_name string, TL *Learn) (int) {
 		Add = got
 		for i := 1; i < len(record); i++ {
 			
-			if record[i] == "M" {
-				record[i] = "1"
-			} else if record[i] == "B" {
-				record[i] = "0"
+			if record[i] == "M" || record[i] == "B" {
+				b := 0.0
+				if record[i] == "M" {
+					b = 1.0
+				} 
+				TL.Response = append(TL.Response, b)
+			} else {
+				a, _ := strconv.ParseFloat(record[i], 64)
+				Add = append(Add, a)
 			}
-			a, _ := strconv.ParseFloat(record[i], 64)
-			Add = append(Add, a)
 		}
 		TL.Datas[len(TL.Datas)] = Add
 	}
 	return (1)
 }
 
-func SaveFile(data [][]float64, name string, ner float64) {
+func SaveFile(data [][]float64, name string, ner float64, name_aolgo string) {
 
-	user := TransformData(data, ner)
+	user := TransformData(data, ner, name_aolgo)
     buffer := new(bytes.Buffer)
     encoder := json.NewEncoder(buffer)
     encoder.SetIndent("", "\t")
@@ -98,10 +102,10 @@ func SaveFile(data [][]float64, name string, ner float64) {
     check(err, name, 1)
 }
 
-func TransformData(x [][]float64, ner float64) (Base) {
+func TransformData(x [][]float64, ner float64, name_aolgo string) (Base) {
 
 	Datas := Base{}
-	Datas.Name = "XOR"
+	Datas.Name = name_aolgo
 	Datas.Error = ner
 	a := 0
 
