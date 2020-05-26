@@ -22,13 +22,13 @@ func ShowMain(D *GoTo) {
 	var res string
 
 	Choice := []string {
-		"You wan't to learn or to predict ? [L/P] (L -> learn, P -> predict)",
-		"You wan't wich neronal network ? [XOR]",
+		"You wan't to learn or to predict ? [L, P] (L -> learn, P -> predict)",
+		"You wan't wich neronal network ? [XOR, MNIST]",
 	}
 
 	Responses := [][]string {
 		[]string{ "L", "P" },
-		[]string{ "XOR" },	
+		[]string{ "XOR", "MNIST" },	
 	}
 
 	for i := 0; i < len(Choice); i++ {
@@ -41,7 +41,11 @@ func ShowMain(D *GoTo) {
 		if i == 0 {
 			D.ToDo = GetIndex(Responses[i], res) 
 		} else {
-			D.Create = create.XOR
+			if res == "XOR" {
+				D.Create = create.XOR
+			} else {
+				D.Create = create.MNIST
+			}
 			D.Name = res
 		}
 	}
