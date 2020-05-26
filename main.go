@@ -30,11 +30,11 @@ func main() {
 		Predict(Network)
 	} else {
 
-		// lire le fichier de data
 		ToLearn := file.Learn{}
 		if file.ReadFile("data/data.csv", &ToLearn) == 0 {
 			return
 		}
+		norm.Normalize(ToLearn.Datas)
 		fmt.Println(final)
 		// trier les datas
 		//Train(Network, Doing, final)
