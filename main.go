@@ -10,6 +10,9 @@ import (
 	"Response"
 	"create"
 	"norm"
+	"text/tabwriter"
+	"os"
+	"maths"
 )
 
 func main() {
@@ -20,6 +23,12 @@ func main() {
 	graphical.ShowMain(&Doing)
 
 	final := Doing.Create(&Network)
+	ToLearn := file.Learn{}
+	if file.ReadFile("data/data.csv", &ToLearn) == 0 {
+		return
+	}
+	norm.Normalize(ToLearn.Datas)
+
 	if Doing.ToDo == 1 {
 
 		err, datas := file.GetDatas("data/" + Doing.Name + "/res.json")
@@ -28,14 +37,9 @@ func main() {
 			return
 		}
 		create.ChangeDatas(&Network, datas)
-		Predict(Network)
+		Predict(Network, ToLearn)
 	} else {
 
-		ToLearn := file.Learn{}
-		if file.ReadFile("data/data.csv", &ToLearn) == 0 {
-			return
-		}
-		norm.Normalize(ToLearn.Datas)
 		Train(Network, Doing, final, ToLearn)
 	}
 }
@@ -91,12 +95,46 @@ func Train(Network network.Net, Doing graphical.GoTo, final int, TL file.Learn) 
 
 }
 
-func Predict(Network network.Net) {
+func Predict(Network network.Net, TL file.Learn) {
 
-	x := []float64{ 0, 0, 0, 1, 1, 0, 1, 1 }
-	x_train := mat.NewDense(2, 4, x) //changer ca
+	var x []float64
+
+	for i := 0; i + 1 < len(TL.Datas); i++ {
+
+		for e := 0; e < len(TL.Datas[i]); e ++ {
+			x = append(x, TL.Datas[i][e])
+		}
+	}
+	x_train := mat.NewDense(len(TL.Datas[0]), len(TL.Datas) - 1, x)
+	real_data := TL.Response
 
 	pred := network.Predict(&Network, x_train)
+	x_data := pred.RawMatrix().Data
+
 	fmt.Println("Prediction : ")
-	fmt.Println(pred)
+
+	w := new(tabwriter.Writer)
+	w.Init(os.Stdout, 0, 8, 2, '\t', tabwriter.Debug|tabwriter.AlignRight)
+	fmt.Fprintln(w, "index\tNeuronal Network response\treal response\tdiff\t")
+	for i := 0; i < len(x_data); i++ {
+			fmt.Fprintln(w, toString(float64(i), 0) + "\t" + toString(x_data[i], 0) + "\t" + toString(real_data[i], 0) + "\t" + toString(x_data[i] - real_data[i], 1)  + "\t")
+	}
+    fmt.Fprintln(w)
+    w.Flush()
+}
+
+func toString(nb float64, t int) (string) {
+
+	if t == 1 {
+
+		nbc := maths.Abs(nb)
+		if nbc <= 0.30 {
+			return (fmt.Sprintf("\033[1;32m%f \033[0m", nb))
+		} else if nbc > 0.30 && nbc <= 0.60 {
+			return (fmt.Sprintf("\033[1;33m%f \033[0m", nb))
+		} else {
+			return (fmt.Sprintf("\033[1;31m%f \033[0m", nb))
+		}
+	}
+	return (fmt.Sprintf("%f", nb))
 }

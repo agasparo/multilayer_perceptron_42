@@ -50,3 +50,11 @@ func Mean(data []float64) (float64) {
 	}
 	return (res / c)
 }
+
+func Abs(nb float64) (float64) {
+
+	if nb < 0 {
+		return (nb * -1)
+	}
+	return (nb)
+}
