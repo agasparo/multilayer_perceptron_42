@@ -118,9 +118,9 @@ func Predict(Network network.Net, TL file.Learn) {
 
 	w := new(tabwriter.Writer)
 	w.Init(os.Stdout, 0, 8, 2, '\t', tabwriter.Debug|tabwriter.AlignRight)
-	fmt.Fprintln(w, "index\tNeuronal Network response\treal response\tdiff\t")
+	fmt.Fprintln(w, "index\tNeuronal Network response\treal response\tM / B real\tM / B NN\tcompare\tdiff")
 	for i := 0; i < len(x_data); i++ {
-			fmt.Fprintln(w, toString(float64(i), 0, percent) + "\t" + toString(x_data[i], 0, percent) + "\t" + toString(real_data[i], 0, percent) + "\t" + toString(x_data[i] - real_data[i], 1, percent)  + "\t")
+			fmt.Fprintln(w, toString(float64(i), 0, percent) + "\t" + toString(x_data[i], 0, percent) + "\t" + toString(real_data[i], 0, percent) + "\t" + IS(x_data[i]) + "\t" + IS(real_data[i]) + Cmp(x_data[i], real_data[i]) + "\t" + toString(x_data[i] - real_data[i], 1, percent)  + "\t")
 	}
     fmt.Fprintln(w)
     w.Flush()
@@ -134,6 +134,22 @@ func Predict(Network network.Net, TL file.Learn) {
 	}
     fmt.Fprintln(w)
     w.Flush()
+}
+
+func Cmp(nb, nb1 float64) (string) {
+
+	if IS(nb) == IS(nb1) {
+		return("\t\033[1;32m[OK]\033[0m")
+	}
+	return ("\t\033[1;31m[KO]\033[0m")
+}
+
+func IS(nb float64) (string) {
+
+	if nb >= 0.5 {
+		return ("M")
+	}
+	return ("B")
 }
 
 func toString(nb float64, t int, percent []int) (string) {
