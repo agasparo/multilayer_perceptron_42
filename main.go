@@ -141,10 +141,10 @@ func toString(nb float64, t int, percent []int) (string) {
 	if t == 1 {
 
 		nbc := maths.Abs(nb)
-		if nbc <= 0.30 {
+		if nbc <= 0.33 {
 			percent[0] = percent[0] + 1
 			return (fmt.Sprintf("\033[1;32m%f \033[0m", nb))
-		} else if nbc > 0.30 && nbc <= 0.60 {
+		} else if nbc > 0.33 && nbc <= 0.66 {
 			percent[1] = percent[1] + 1
 			return (fmt.Sprintf("\033[1;33m%f \033[0m", nb))
 		} else {
