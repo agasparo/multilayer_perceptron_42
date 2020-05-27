@@ -22,7 +22,7 @@ func main() {
 
 	graphical.ShowMain(&Doing)
 
-	final := Doing.Create(&Network)
+	final, divi := Doing.Create(&Network)
 	ToLearn := file.Learn{}
 	if file.ReadFile("data/data.csv", &ToLearn) == 0 {
 		return
@@ -40,11 +40,11 @@ func main() {
 		Predict(Network, ToLearn)
 	} else {
 
-		Train(Network, Doing, final, ToLearn)
+		Train(Network, Doing, final, ToLearn, divi)
 	}
 }
 
-func Train(Network network.Net, Doing graphical.GoTo, final int, TL file.Learn) {
+func Train(Network network.Net, Doing graphical.GoTo, final int, TL file.Learn, divi int) {
 
 	var data [][]float64
 	var savefile string
@@ -61,7 +61,7 @@ func Train(Network network.Net, Doing graphical.GoTo, final int, TL file.Learn) 
 	y_train := mat.NewDense(1, len(TL.Response), TL.Response)
 
 	epochs := 1000
-	learning_rate := 0.1
+	learning_rate := 1 / float64(divi)
 
 	err := network.Train(x_train, y_train, epochs, learning_rate, Network, final)
 	for i := 0; i < len(Network.Layer); i++ {
