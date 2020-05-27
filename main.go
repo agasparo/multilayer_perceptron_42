@@ -113,26 +113,42 @@ func Predict(Network network.Net, TL file.Learn) {
 
 	fmt.Println("Prediction : ")
 
+	var percent[]int
+	percent = append(percent, 0, 0, 0)
+
 	w := new(tabwriter.Writer)
 	w.Init(os.Stdout, 0, 8, 2, '\t', tabwriter.Debug|tabwriter.AlignRight)
 	fmt.Fprintln(w, "index\tNeuronal Network response\treal response\tdiff\t")
 	for i := 0; i < len(x_data); i++ {
-			fmt.Fprintln(w, toString(float64(i), 0) + "\t" + toString(x_data[i], 0) + "\t" + toString(real_data[i], 0) + "\t" + toString(x_data[i] - real_data[i], 1)  + "\t")
+			fmt.Fprintln(w, toString(float64(i), 0, percent) + "\t" + toString(x_data[i], 0, percent) + "\t" + toString(real_data[i], 0, percent) + "\t" + toString(x_data[i] - real_data[i], 1, percent)  + "\t")
+	}
+    fmt.Fprintln(w)
+    w.Flush()
+
+    tab := []string{ "Green", "Orange", "Red" }
+    w = new(tabwriter.Writer)
+    w.Init(os.Stdout, 0, 8, 2, '\t', tabwriter.Debug|tabwriter.AlignRight)
+	fmt.Fprintln(w, "Color\tNumber\tNumber of data\tpercent\t")
+	for i := 0; i < len(percent); i++ {
+			fmt.Fprintln(w, tab[i] + "\t" + fmt.Sprintf("%d", percent[i]) + "\t" + fmt.Sprintf("%d", len(x_data)) + "\t" + fmt.Sprintf("%f", float64(percent[i]) / float64(len(x_data)) * 100) + " %\t")
 	}
     fmt.Fprintln(w)
     w.Flush()
 }
 
-func toString(nb float64, t int) (string) {
+func toString(nb float64, t int, percent []int) (string) {
 
 	if t == 1 {
 
 		nbc := maths.Abs(nb)
 		if nbc <= 0.30 {
+			percent[0] = percent[0] + 1
 			return (fmt.Sprintf("\033[1;32m%f \033[0m", nb))
 		} else if nbc > 0.30 && nbc <= 0.60 {
+			percent[1] = percent[1] + 1
 			return (fmt.Sprintf("\033[1;33m%f \033[0m", nb))
 		} else {
+			percent[2] = percent[2] + 1
 			return (fmt.Sprintf("\033[1;31m%f \033[0m", nb))
 		}
 	}
