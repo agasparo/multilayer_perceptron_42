@@ -21,8 +21,8 @@ func XOR(Network *network.Net) (int) {
 	AllInput := input.Create(2)
 	AllActive := hidden.Create(2)
 
-	input.Init(&AllInput[0], 30, 20)
-	input.Init(&AllInput[1], 20, 1)
+	input.Init(&AllInput[0], 30, 60)
+	input.Init(&AllInput[1], 60, 1)
 	
 	hidden.Init(&AllActive[0], activation.Tanh, activation.Tanh_prime)
 	hidden.Init(&AllActive[1], activation.Tanh, activation.Tanh_prime)
@@ -37,15 +37,15 @@ func XOR(Network *network.Net) (int) {
 	return (1)
 }
 
-func MNIST(Network *network.Net) (int) {
+func CUSTOM(Network *network.Net) (int) {
 
 	AllInput := input.Create(4)
 	AllActive := hidden.Create(4)
 
-	input.Init(&AllInput[0], 30, 20)
-	input.Init(&AllInput[1], 20, 10)
-	input.Init(&AllInput[2], 10, 5)
-	input.Init(&AllInput[3], 5, 1)
+	input.Init(&AllInput[0], 30, 45)
+	input.Init(&AllInput[1], 45, 68)
+	input.Init(&AllInput[2], 68, 45)
+	input.Init(&AllInput[3], 45, 1)
 
 	hidden.Init(&AllActive[0], activation.Tanh, activation.Tanh_prime)
 	hidden.Init(&AllActive[1], activation.Tanh, activation.Tanh_prime)

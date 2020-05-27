@@ -94,7 +94,7 @@ func Train(Network network.Net, Doing graphical.GoTo, final int, TL file.Learn) 
 func Predict(Network network.Net) {
 
 	x := []float64{ 0, 0, 0, 1, 1, 0, 1, 1 }
-	x_train := mat.NewDense(2, 4, x)
+	x_train := mat.NewDense(2, 4, x) //changer ca
 
 	pred := network.Predict(&Network, x_train)
 	fmt.Println("Prediction : ")

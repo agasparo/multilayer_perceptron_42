@@ -23,12 +23,12 @@ func ShowMain(D *GoTo) {
 
 	Choice := []string {
 		"You wan't to learn or to predict ? [L, P] (L -> learn, P -> predict)",
-		"You wan't wich neronal network ? [XOR, MNIST]",
+		"You wan't wich neronal network ? [XOR, CUSTOM]",
 	}
 
 	Responses := [][]string {
 		[]string{ "L", "P" },
-		[]string{ "XOR", "MNIST" },	
+		[]string{ "XOR", "CUSTOM" },	
 	}
 
 	for i := 0; i < len(Choice); i++ {
@@ -44,7 +44,7 @@ func ShowMain(D *GoTo) {
 			if res == "XOR" {
 				D.Create = create.XOR
 			} else {
-				D.Create = create.MNIST
+				D.Create = create.CUSTOM
 			}
 			D.Name = res
 		}
