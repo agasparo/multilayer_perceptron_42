@@ -50,14 +50,14 @@ func Train(Network network.Net, Doing graphical.GoTo, final int, TL file.Learn) 
 	var savefile string
 	var x []float64
 
-	for i := 0; i + 1 < len(TL.Datas); i++ {
+	for i := 0; i < len(TL.Datas); i++ {
 
 		for e := 0; e < len(TL.Datas[i]); e ++ {
 			x = append(x, TL.Datas[i][e])
 		}
 	}
 
-	x_train := mat.NewDense(len(TL.Datas[0]), len(TL.Datas) - 1, x)
+	x_train := mat.NewDense(len(TL.Datas[0]), len(TL.Datas), x)
 	y_train := mat.NewDense(1, len(TL.Response), TL.Response)
 
 	epochs := 1000
@@ -99,13 +99,13 @@ func Predict(Network network.Net, TL file.Learn) {
 
 	var x []float64
 
-	for i := 0; i + 1 < len(TL.Datas); i++ {
+	for i := 0; i < len(TL.Datas); i++ {
 
 		for e := 0; e < len(TL.Datas[i]); e ++ {
 			x = append(x, TL.Datas[i][e])
 		}
 	}
-	x_train := mat.NewDense(len(TL.Datas[0]), len(TL.Datas) - 1, x)
+	x_train := mat.NewDense(len(TL.Datas[0]), len(TL.Datas), x)
 	real_data := TL.Response
 
 	pred := network.Predict(&Network, x_train)
