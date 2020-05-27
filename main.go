@@ -63,8 +63,6 @@ func Train(Network network.Net, Doing graphical.GoTo, final int, TL file.Learn) 
 	epochs := 1000
 	learning_rate := 0.1
 
-	fmt.Println(x_train.Dims())
-
 	err := network.Train(x_train, y_train, epochs, learning_rate, Network, final)
 	for i := 0; i < len(Network.Layer); i++ {
 
