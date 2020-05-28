@@ -13,6 +13,7 @@ import (
 	"text/tabwriter"
 	"os"
 	"maths"
+	"graphs"
 )
 
 func main() {
@@ -22,16 +23,16 @@ func main() {
 
 	graphical.ShowMain(&Doing)
 
-	final := Doing.Create(&Network)
-
 	if Doing.ToDo == 2 {
-		errs, datas := file.ReadGraph("data/graph/" + D.Name + "_", &Datas)
+		errs, datas := file.ReadGraph("data/graph/" + Doing.Name + "_")
 		if errs == 1 {
 			return
 		}
-
+		graphs.Draw(datas)
 		return
 	}
+
+	final := Doing.Create(&Network)
 
 	ToLearn := file.Learn{}
 	if file.ReadFile("data/data.csv", &ToLearn) == 0 {

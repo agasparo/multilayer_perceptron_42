@@ -201,7 +201,7 @@ func ReadGraph(path string) (int, []network.Save) {
 
 	for i := 0; i < len(tab); i++ {
 
-		file_name = path + tab[i] + ".json"
+		file_name := path + tab[i] + ".json"
 		file, e := ioutil.ReadFile(file_name)
 		if e != nil {
 			check(e, file_name, 0)

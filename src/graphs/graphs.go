@@ -3,9 +3,10 @@ package graphs
 import (
 	"github.com/wcharczuk/go-chart"
 	"os"
+	"network"
 )
 
-func LearmingRateTrace() {
+func Draw(data []network.Save) {
 
 	graph := chart.Chart{
 		Series: []chart.Series{
@@ -15,7 +16,7 @@ func LearmingRateTrace() {
 			},
 		},
 	}
-	f, _ := os.Create("view/output.png")
+	f, _ := os.Create("data/view/output.png")
 	defer f.Close()
 	graph.Render(chart.PNG, f)
 }
