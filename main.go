@@ -80,12 +80,11 @@ func Train(Network network.Net, Doing graphical.GoTo, final int, TL file.Learn, 
 		}
 		if res == "Y" {
 			file.SaveGraph(SaveData, "data/graph/" + Doing.Name + "_" + SaveData.Lr_t + ".json")
-			file.SaveFile(data, savefile, err, Doing.Name)
 		}
 	} else {
 		file.SaveGraph(SaveData, "data/graph/" + Doing.Name + "_" + SaveData.Lr_t + ".json")
-		file.SaveFile(data, savefile, err, Doing.Name)
 	}
+	file.SaveFile(data, savefile, err, Doing.Name)
 }
 
 func Predict(Network network.Net, TL file.Learn) {
