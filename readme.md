@@ -17,11 +17,18 @@ Bonus :
 		XOR
 		CUSTOM
 
+	Forward_propagation
+
 	sauvegarde des donnees lors de l'apprentissage
 
 a faire :
 
 	graphique :
+	softmax
+	afficher donner de validation
+	regarder def de feedforward, backpropagation et gradient descent
+	early stoping
+	trouver le meiller rn possible
 
 
 
