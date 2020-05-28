@@ -23,12 +23,11 @@ Bonus :
 
 a faire :
 
-	graphique :
-	softmax
-	afficher donner de validation
+	graphique (accurancy et afichier les graphs dans le term)
+	softmax (au niveau du backPropagation)
+	afficher donner de validation (au niveau de network)
 	regarder def de feedforward, backpropagation et gradient descent
 	early stoping
-	trouver le meiller rn possible
 
 
 

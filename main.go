@@ -89,12 +89,13 @@ func Train(Network network.Net, Doing graphical.GoTo, final int, TL file.Learn, 
 			_, res = in.ReadSTDIN("Your error is more than your previous save file, would you like to save it ? [Y/N]", 1)
 		}
 		if res == "Y" {
+			file.SaveFile(data, savefile, err, Doing.Name)
 			file.SaveGraph(SaveData, "data/graph/" + Doing.Name + "_" + SaveData.Lr_t + ".json")
 		}
 	} else {
+		file.SaveFile(data, savefile, err, Doing.Name)
 		file.SaveGraph(SaveData, "data/graph/" + Doing.Name + "_" + SaveData.Lr_t + ".json")
 	}
-	file.SaveFile(data, savefile, err, Doing.Name)
 }
 
 func Predict(Network network.Net, TL file.Learn) {

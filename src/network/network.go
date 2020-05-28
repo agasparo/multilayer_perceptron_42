@@ -97,7 +97,7 @@ func Train(x, y *mat.Dense, epochs int, learning_rate float64, Self Net, outpout
 				error = Self.Layer[k].Backward_propagation(error, learning_rate)
 			}
 		}
-		err /= float64(samples) //save data for graph
+		err /= float64(samples)
 		S.Errors = append(S.Errors, err)
 		S.Lr = append(S.Lr, learning_rate)
 		fmt.Printf("epoch %d / %d error = %f, learning rate : %f\n", i + 1, epochs, err, learning_rate)
@@ -112,14 +112,14 @@ func LearningRate(lr_init, epoch, learning_rate, epochs float64, lr_algo int) (f
 	var lrate float64
 
 	if lr_algo == 0 {
-		k := 0.09
+		k := 0.0145
 		lrate = lr_init * math.Exp(-k * epoch)
 	} else if lr_algo == 2 {
-		decay := learning_rate / epochs
+		decay := lr_init / epochs
 		lrate = learning_rate * (1.0 / (1.0 + decay * epoch))
 	} else if lr_algo == 1 {
-   		drop := 0.25
-   		epochs_drop := 60.0
+   		drop := 0.65
+   		epochs_drop := 35.0
    		lrate = lr_init * math.Pow(drop, math.Floor((1.0 + epoch) / epochs_drop))
 	} else {
 		lrate = lr_init

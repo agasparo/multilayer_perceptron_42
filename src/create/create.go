@@ -42,10 +42,10 @@ func CUSTOM(Network *network.Net) (int) {
 	AllInput := input.Create(4)
 	AllActive := hidden.Create(4)
 
-	input.Init(&AllInput[0], 30, 45)
-	input.Init(&AllInput[1], 45, 68)
-	input.Init(&AllInput[2], 68, 45)
-	input.Init(&AllInput[3], 45, 1)
+	input.Init(&AllInput[0], 30, 50)
+	input.Init(&AllInput[1], 50, 60)
+	input.Init(&AllInput[2], 60, 70)
+	input.Init(&AllInput[3], 70, 1)
 
 	hidden.Init(&AllActive[0], activation.Tanh, activation.Tanh_prime)
 	hidden.Init(&AllActive[1], activation.Tanh, activation.Tanh_prime)

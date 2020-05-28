@@ -11,6 +11,7 @@ func Draw(data []network.Save) {
 	for i := 0; i < len(data); i++ {
 
 		LearningRate(Prepare(len(data[i].Lr)), data[i].Lr, data[i].Lr_t)
+		Train(Prepare(len(data[i].Errors)), data[i].Errors, data[i].Lr_t)
 	}
 }
 
@@ -31,6 +32,27 @@ func LearningRate(x, y []float64, name string) {
 		},
 	}
 	f, _ := os.Create("data/view/learningRate_" + name + ".png")
+	defer f.Close()
+	graph.Render(chart.PNG, f)
+}
+
+func Train(x, y []float64, name string) {
+
+	graph := chart.Chart{
+		XAxis: chart.XAxis{
+			Name: "epochs",
+		},
+		YAxis: chart.YAxis{
+			Name: "error",
+		},
+		Series: []chart.Series{
+			chart.ContinuousSeries{
+				XValues: x,
+				YValues: y,
+			},
+		},
+	}
+	f, _ := os.Create("data/view/error_" + name + ".png")
 	defer f.Close()
 	graph.Render(chart.PNG, f)
 }
