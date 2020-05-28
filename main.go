@@ -53,7 +53,7 @@ func Train(Network network.Net, Doing graphical.GoTo, final int, TL file.Learn, 
 
 	for i := 0; i < len(TL.Datas); i++ {
 
-		for e := 0; e < len(TL.Datas[i]); e ++ {
+		for e := 0; e < len(TL.Datas[i]); e++ {
 			x = append(x, TL.Datas[i][e])
 		}
 	}
@@ -94,7 +94,7 @@ func Predict(Network network.Net, TL file.Learn) {
 
 	for i := 0; i < len(TL.Datas); i++ {
 
-		for e := 0; e < len(TL.Datas[i]); e ++ {
+		for e := 0; e < len(TL.Datas[i]); e++ {
 			x = append(x, TL.Datas[i][e])
 		}
 	}
