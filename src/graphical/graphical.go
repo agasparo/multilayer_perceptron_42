@@ -6,6 +6,7 @@ import (
 	"strings"
 	"network"
 	"create"
+	"strconv"
 )
 
 type CreateAl func(*network.Net) (int)
@@ -15,6 +16,7 @@ type GoTo struct {
 	ToDo 	int
 	Create 	CreateAl
 	Name	string
+	Decrease int
 }
 
 func ShowMain(D *GoTo) {
@@ -24,11 +26,13 @@ func ShowMain(D *GoTo) {
 	Choice := []string {
 		"You wan't to learn or to predict ? [L, P] (L -> learn, P -> predict)",
 		"You wan't wich neronal network ? [XOR, CUSTOM]",
+		"You Want wich decrease for learning rate ? [0, 1, 2, 3] (exp, stair, linear, const)",
 	}
 
 	Responses := [][]string {
 		[]string{ "L", "P" },
-		[]string{ "XOR", "CUSTOM" },	
+		[]string{ "XOR", "CUSTOM" },
+		[]string{ "0", "1", "2", "3" },
 	}
 
 	for i := 0; i < len(Choice); i++ {
@@ -40,13 +44,15 @@ func ShowMain(D *GoTo) {
 		}
 		if i == 0 {
 			D.ToDo = GetIndex(Responses[i], res) 
-		} else {
+		} else if i == 1 {
 			if res == "XOR" {
 				D.Create = create.XOR
 			} else {
 				D.Create = create.CUSTOM
 			}
 			D.Name = res
+		} else {
+			D.Decrease, _ = strconv.Atoi(res)
 		}
 	}
 }
