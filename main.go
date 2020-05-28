@@ -22,7 +22,7 @@ func main() {
 
 	graphical.ShowMain(&Doing)
 
-	final, divi := Doing.Create(&Network)
+	final := Doing.Create(&Network)
 	ToLearn := file.Learn{}
 	if file.ReadFile("data/data.csv", &ToLearn) == 0 {
 		return
@@ -40,11 +40,12 @@ func main() {
 		Predict(Network, ToLearn)
 	} else {
 
-		Train(Network, Doing, final, ToLearn, divi)
+		SaveData := network.Save{}
+		Train(Network, Doing, final, ToLearn, SaveData)
 	}
 }
 
-func Train(Network network.Net, Doing graphical.GoTo, final int, TL file.Learn, divi int) {
+func Train(Network network.Net, Doing graphical.GoTo, final int, TL file.Learn, SaveData network.Save) {
 
 	var data [][]float64
 	var savefile string
@@ -61,9 +62,9 @@ func Train(Network network.Net, Doing graphical.GoTo, final int, TL file.Learn, 
 	y_train := mat.NewDense(1, len(TL.Response), TL.Response)
 
 	epochs := 1000
-	learning_rate := 1 / float64(divi)
+	learning_rate := 0.001
 
-	err := network.Train(x_train, y_train, epochs, learning_rate, Network, final)
+	err := network.Train(x_train, y_train, epochs, learning_rate, Network, final, &SaveData, 1)
 	for i := 0; i < len(Network.Layer); i++ {
 
 		tmp, tmp1 := Network.Layer[i].GetData()
@@ -78,19 +79,13 @@ func Train(Network network.Net, Doing graphical.GoTo, final int, TL file.Learn, 
 			_, res = in.ReadSTDIN("Your error is more than your previous save file, would you like to save it ? [Y/N]", 1)
 		}
 		if res == "Y" {
+			file.SaveGraph(SaveData, "data/graph/" + Doing.Name + "_" + SaveData.Lr_t + ".json")
 			file.SaveFile(data, savefile, err, Doing.Name)
 		}
 	} else {
+		file.SaveGraph(SaveData, "data/graph/" + Doing.Name + "_" + SaveData.Lr_t + ".json")
 		file.SaveFile(data, savefile, err, Doing.Name)
 	}
-
-	// representer le reseau graphiquement
-	
-
-
-	// afficher le graph d'apprentissage
-	
-
 }
 
 func Predict(Network network.Net, TL file.Learn) {
@@ -123,6 +118,7 @@ func Predict(Network network.Net, TL file.Learn) {
     fmt.Fprintln(w)
     w.Flush()
 
+    Response.PrintVerboseStep("Accuracy of neuronal network :")
     tab := []string{ "Green", "Orange", "Red" }
     w = new(tabwriter.Writer)
     w.Init(os.Stdout, 0, 8, 2, '\t', tabwriter.Debug|tabwriter.AlignRight)

@@ -10,6 +10,7 @@ import (
 	"encoding/csv"
 	"strconv"
 	"io"
+	"network"
 )
 
 type Base struct {
@@ -77,6 +78,34 @@ func ReadFile(file_name string, TL *Learn) (int) {
 func SaveFile(data [][]float64, name string, ner float64, name_aolgo string) {
 
 	user := TransformData(data, ner, name_aolgo)
+    buffer := new(bytes.Buffer)
+    encoder := json.NewEncoder(buffer)
+    encoder.SetIndent("", "\t")
+
+    err := encoder.Encode(user)
+    if err != nil {
+        check(err, name, 0)
+        return
+    }
+    file, err := os.OpenFile(name, os.O_RDWR|os.O_CREATE, 0755)
+    if err != nil {
+        check(err, name, 0)
+        return
+    }
+    defer file.Close()
+    file.Truncate(0)
+	file.Seek(0,0)
+    _, err = file.Write(buffer.Bytes())
+    if err != nil {
+        check(err, name, 0)
+        return
+    }
+    check(err, name, 1)
+}
+
+func SaveGraph(SaveData network.Save, name string) {
+
+	user := SaveData
     buffer := new(bytes.Buffer)
     encoder := json.NewEncoder(buffer)
     encoder.SetIndent("", "\t")

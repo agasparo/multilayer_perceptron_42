@@ -4,10 +4,19 @@ import (
 	"gonum.org/v1/gonum/mat"
 	"fmt"
 	"layer"
+	"math"
 )
 
 type floss func(*mat.Dense, *mat.Dense) (float64)
 type flossP func(*mat.Dense, *mat.Dense) (*mat.Dense)
+
+type Save struct {
+
+	Errors []float64
+	Epochs int
+	Lr 	   []float64
+	Lr_t    string
+}
 
 type Net struct {
 
@@ -51,7 +60,7 @@ func Predict(Self *Net, x *mat.Dense) (*mat.Dense) {
 	return (mat.NewDense(len(res), 1, res))
 }
 
-func Train(x, y *mat.Dense, epochs int, learning_rate float64, Self Net, outpout_s int) (float64) {
+func Train(x, y *mat.Dense, epochs int, learning_rate float64, Self Net, outpout_s int, S *Save, lr_algo int) (float64) {
 
 	var err float64
 	var outpout, error *mat.Dense
@@ -60,6 +69,9 @@ func Train(x, y *mat.Dense, epochs int, learning_rate float64, Self Net, outpout
 	data_y := y.RawMatrix().Data
 	lines, samples := x.Dims()
 	y_lines, _ := y.Dims()
+	lr_base := learning_rate
+	type_lr := [2]string{ "exponnential", "constant" }
+	S.Lr_t = type_lr[lr_algo]
 
 	for i := 0; i < epochs; i++ {
 		
@@ -85,10 +97,27 @@ func Train(x, y *mat.Dense, epochs int, learning_rate float64, Self Net, outpout
 				error = Self.Layer[k].Backward_propagation(error, learning_rate)
 			}
 		}
-		err /= float64(samples)
-		fmt.Printf("epoch %d / %d error = %f\n", i + 1, epochs, err)
+		err /= float64(samples) //save data for graph
+		S.Errors = append(S.Errors, err)
+		S.Lr = append(S.Lr, learning_rate)
+		fmt.Printf("epoch %d / %d error = %f, learning rate : %f\n", i + 1, epochs, err, learning_rate)
+		learning_rate = LearningRate(lr_base, float64(i), lr_algo)
 	}
+	S.Epochs = epochs
 	return (err)
+}
+
+func LearningRate(lr_init, epoch float64, lr_algo int) (float64) {
+
+	var lrate float64
+
+	if lr_algo == 0 {
+		k := 0.09
+		lrate = lr_init * math.Exp(-k * epoch)
+	} else {
+		lrate = lr_init
+	}
+    return (lrate)
 }
 
 func transform(data []float64, j, mul int) ([]float64) {

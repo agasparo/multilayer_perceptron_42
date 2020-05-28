@@ -16,7 +16,7 @@ func ChangeDatas(Network *network.Net, data file.Base) {
 	}
 }
 
-func XOR(Network *network.Net) (int, int) {
+func XOR(Network *network.Net) (int) {
 
 	AllInput := input.Create(2)
 	AllActive := hidden.Create(2)
@@ -34,18 +34,18 @@ func XOR(Network *network.Net) (int, int) {
 
 	network.Use(Network, loss.Mse, loss.Mse_prime)
 
-	return 1, 10
+	return 1
 }
 
-func CUSTOM(Network *network.Net) (int, int) {
+func CUSTOM(Network *network.Net) (int) {
 
 	AllInput := input.Create(4)
 	AllActive := hidden.Create(4)
 
-	input.Init(&AllInput[0], 30, 45) // 30 45
-	input.Init(&AllInput[1], 45, 68) // 45 68
-	input.Init(&AllInput[2], 68, 45) // 68 45
-	input.Init(&AllInput[3], 45, 1) //  45 1
+	input.Init(&AllInput[0], 30, 45)
+	input.Init(&AllInput[1], 45, 68)
+	input.Init(&AllInput[2], 68, 45)
+	input.Init(&AllInput[3], 45, 1)
 
 	hidden.Init(&AllActive[0], activation.Tanh, activation.Tanh_prime)
 	hidden.Init(&AllActive[1], activation.Tanh, activation.Tanh_prime)
@@ -63,5 +63,5 @@ func CUSTOM(Network *network.Net) (int, int) {
 
 	network.Use(Network, loss.Mse, loss.Mse_prime)
 
-	return 1, 1000
+	return 1
 }
