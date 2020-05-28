@@ -193,3 +193,23 @@ func GetDatas(file_name string) (int, Base) {
 	_ = json.Unmarshal([]byte(file), &data)
 	return 0, data
 }
+
+func ReadGraph(path string) (int, []network.Save) {
+
+	var donne []network.Save
+	tab := [4]string{ "exponnential", "stair", "linear", "constant" }
+
+	for i := 0; i < len(tab); i++ {
+
+		file_name = path + tab[i] + ".json"
+		file, e := ioutil.ReadFile(file_name)
+		if e != nil {
+			check(e, file_name, 0)
+			return 1, donne
+		}
+		Datas := network.Save{}
+		_ = json.Unmarshal([]byte(file), &Datas)
+		donne = append(donne, Datas)
+	}
+	return 0, donne
+}

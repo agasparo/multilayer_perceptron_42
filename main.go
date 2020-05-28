@@ -23,12 +23,21 @@ func main() {
 	graphical.ShowMain(&Doing)
 
 	final := Doing.Create(&Network)
+
+	if Doing.ToDo == 2 {
+		errs, datas := file.ReadGraph("data/graph/" + D.Name + "_", &Datas)
+		if errs == 1 {
+			return
+		}
+
+		return
+	}
+
 	ToLearn := file.Learn{}
 	if file.ReadFile("data/data.csv", &ToLearn) == 0 {
 		return
 	}
 	norm.Normalize(ToLearn.Datas)
-
 	if Doing.ToDo == 1 {
 
 		err, datas := file.GetDatas("data/" + Doing.Name + "/res.json")
