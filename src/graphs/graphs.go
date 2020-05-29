@@ -14,12 +14,13 @@ func Draw(data []network.Save) {
 
 		n := LearningRate(Prepare(len(data[i].Lr)), data[i].Lr, data[i].Lr_t)
 		n1 := Train(Prepare(len(data[i].Errors)), data[i].Errors, data[i].ValLoss, data[i].Lr_t)
-		a, _ := strconv.Atoi(i)
-		images.AppendRow("Row" + a + ".png", n, n1)
+		a := strconv.Itoa(i)
+		images.AppendRow("data/view/Row" + a + ".png", n, n1)
 	}
-	images.Append("Slice1.png", "Row0.png", "Row1.png")
-	images.Append("Slice2.png", "Row2.png", "Row3.png")
-	images.Append("datas.png", "Slice1.png", "Slice2.png")
+	images.Append("data/view/Slice1.png", "data/view/Row0.png", "data/view/Row1.png")
+	images.Append("data/view/Slice2.png", "data/view/Row2.png", "data/view/Row3.png")
+	images.Append("data/view/datas.png", "data/view/Slice1.png", "data/view/Slice2.png")
+	images.DrawOnTerm("data/view/datas.png")
 }
 
 func LearningRate(x, y []float64, name string) (string) {
