@@ -12,9 +12,11 @@ type flossP func(*mat.Dense, *mat.Dense) (*mat.Dense)
 
 type Save struct {
 
-	Errors []float64
-	Epochs int
-	Lr 	   []float64
+	Errors 	[]float64
+	ValLoss []float64
+	Accu 	[]float64
+	Epochs 	int
+	Lr 	   	[]float64
 	Lr_t    string
 }
 
@@ -62,7 +64,7 @@ func Predict(Self *Net, x *mat.Dense) (*mat.Dense) {
 
 func Train(x, y *mat.Dense, epochs int, learning_rate float64, Self Net, outpout_s int, S *Save, lr_algo int) (float64) {
 
-	var err float64
+	var err, err1, accuracy float64
 	var outpout, error *mat.Dense
 
 	data_x := x.RawMatrix().Data
@@ -97,14 +99,41 @@ func Train(x, y *mat.Dense, epochs int, learning_rate float64, Self Net, outpout
 				error = Self.Layer[k].Backward_propagation(error, learning_rate)
 			}
 		}
+		err1, accuracy = ValLossAccu(outpout_s, Self, float64(samples), data_x, data_y, lines, samples, y_lines)
 		err /= float64(samples)
 		S.Errors = append(S.Errors, err)
+		S.ValLoss = append(S.ValLoss, err1)
+		S.Accu = append(S.Accu, accuracy)
 		S.Lr = append(S.Lr, learning_rate)
-		fmt.Printf("epoch %d / %d error = %f, learning rate : %f\n", i + 1, epochs, err, learning_rate)
+		fmt.Printf("epoch %d / %d error = %f, val_loss = %f, accuracy = %f, learning rate : %f\n", i + 1, epochs, err, err1, accuracy, learning_rate)
 		learning_rate = LearningRate(lr_base, float64(i + 1), learning_rate, float64(epochs),  lr_algo)
 	}
 	S.Epochs = epochs
 	return (err)
+}
+
+func ValLossAccu(outpout_s int, Self Net, t float64, data_x, data_y []float64, lines, samples, y_lines int) (float64, float64) {
+
+	var err, in float64
+	var outpout *mat.Dense
+
+	for i := 0; i < samples; i++ {
+
+		outpout = mat.NewDense(outpout_s, lines, transform(data_x, i, lines))
+		for z := 0; z < len(Self.Layer); z++ {
+			outpout = Self.Layer[z].Forward_propagation(outpout)
+		}
+		real := mat.NewDense(outpout_s, y_lines, transform(data_y, i, y_lines))
+		err += Self.Loss(real, outpout)
+
+		tmp := outpout.RawMatrix().Data[0]
+		if tmp > 0.5 && data_y[i] == 1.0 {
+			in++
+		} else if tmp <= 0.5 && data_y[i] == 0.0 {
+			in++
+		}
+	}
+	return err / t, in / float64(len(data_y))
 }
 
 func LearningRate(lr_init, epoch, learning_rate, epochs float64, lr_algo int) (float64) {
