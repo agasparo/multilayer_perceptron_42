@@ -17,7 +17,16 @@ Bonus :
 		XOR
 		CUSTOM
 
-	Forward_propagation
+	train :
+		Forward_propagation
+		accuracy
+		time pass
+		learning rate
+		choix du type de calcul pour le learning rate
+
+	graphique :
+		affichage dans le terminal
+		plusieurs metriques
 
 	sauvegarde des donnees lors de l'apprentissage
 
