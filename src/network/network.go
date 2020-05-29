@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"layer"
 	"math"
+	"time"
 )
 
 type floss func(*mat.Dense, *mat.Dense) (float64)
@@ -67,6 +68,7 @@ func Train(x, y *mat.Dense, epochs int, learning_rate float64, Self Net, outpout
 	var err, err1, accuracy float64
 	var outpout, error *mat.Dense
 
+	timeDeb := time.Now()
 	data_x := x.RawMatrix().Data
 	data_y := y.RawMatrix().Data
 	lines, samples := x.Dims()
@@ -105,7 +107,7 @@ func Train(x, y *mat.Dense, epochs int, learning_rate float64, Self Net, outpout
 		S.ValLoss = append(S.ValLoss, err1)
 		S.Accu = append(S.Accu, accuracy)
 		S.Lr = append(S.Lr, learning_rate)
-		fmt.Printf("epoch %d / %d error = %f, val_loss = %f, accuracy = %f, learning rate : %f\n", i + 1, epochs, err, err1, accuracy, learning_rate)
+		fmt.Printf("epoch %d / %d error = %f, val_loss = %f, accuracy = %f, learning rate : %f, time pass : %f secondes\n", i + 1, epochs, err, err1, accuracy, learning_rate, time.Now().Sub(timeDeb).Seconds())
 		learning_rate = LearningRate(lr_base, float64(i + 1), learning_rate, float64(epochs),  lr_algo)
 	}
 	S.Epochs = epochs
