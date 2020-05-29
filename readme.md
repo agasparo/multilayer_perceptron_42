@@ -29,6 +29,8 @@ Bonus :
 		plusieurs metriques
 
 	sauvegarde des donnees lors de l'apprentissage
+	sauvegarde auto si erreur < erreur savgarder
+	demande de sauvegarde si erreur > erreur sauvgarder
 
 a faire :
 
