@@ -29,7 +29,6 @@ func main() {
 			return
 		}
 		graphs.Draw(datas)
-		
 		return
 	}
 
