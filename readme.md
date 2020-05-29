@@ -23,7 +23,7 @@ Bonus :
 
 a faire :
 
-	graphique (accurancy et afichier les graphs dans le term)
+	graphique (afichier les graphs dans le term)
 	softmax (au niveau du backPropagation)
 	regarder def de feedforward, backpropagation et gradient descent, overfit
 	early stoping
