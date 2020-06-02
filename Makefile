@@ -17,4 +17,7 @@ remove:
 	rm -rf src/github.com/wcharczuk
 	rm -rf src/github.com/nfnt
 
+run:
+	./$(PROJECTNAME)
+
 all: clean init
