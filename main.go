@@ -72,7 +72,7 @@ func Train(Network network.Net, Doing graphical.GoTo, final int, TL file.Learn, 
 	y_train := mat.NewDense(1, len(TL.Response) / 2, TL.Response[0:len(TL.Response) / 2])
 
 	epochs := 250
-	learning_rate := 0.1
+	learning_rate := 0.01
 
 	err := network.Train(x_train, y_train, epochs, learning_rate, Network, final, &SaveData, Doing.Decrease)
 	for i := 0; i < len(Network.Layer); i++ {
