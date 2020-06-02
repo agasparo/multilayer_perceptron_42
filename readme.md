@@ -35,8 +35,7 @@ Bonus :
 a faire :
 
 	softmax (au niveau du backPropagation)
-	a fonction d’erreur d’entropie croisée binaire (pour la prediction) 
-	regarder def de feedforward, backpropagation et gradient descent, overfit
+	a fonction d’erreur d’entropie croisée binaire (pour la prediction)
 	early stoping
 
 
