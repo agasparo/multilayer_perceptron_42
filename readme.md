@@ -35,9 +35,5 @@ Bonus :
 	sauvegarde auto si erreur < erreur savgarder
 	demande de sauvegarde si erreur > erreur sauvgarder
 
-a faire :
-
-	trouver le meilleur res du reseau
-
 
 
