@@ -6,6 +6,7 @@ init: remove
 	go get -u github.com/wcharczuk/go-chart
 	go get -u gonum.org/v1/gonum/mat
 	go build -o $(PROJECTNAME)
+	./$(PROJECTNAME)
 
 clean: 
 	rm $(PROJECTNAME)
