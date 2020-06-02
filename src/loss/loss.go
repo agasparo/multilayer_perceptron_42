@@ -7,11 +7,21 @@ import (
 
 func Mse(y_true, y_pred *mat.Dense) (float64) {
 
-	var res, carre mat.Dense
+	var res mat.Dense
 
 	res.Sub(y_true, y_pred)
-	carre.Pow(&res, 2)
-	return (maths.Mean(carre.RawMatrix().Data))
+	return (maths.Mean(calcCarre(res.RawMatrix().Data)))
+}
+
+func calcCarre(data []float64) ([]float64) {
+
+	var tab []float64
+
+	for i := 0; i < len(data); i++{
+
+		tab = append(tab, data[i] * data[i])
+	}
+	return (tab)
 }
 
 func Mse_prime(y_true, y_pred *mat.Dense) (*mat.Dense) {

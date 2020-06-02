@@ -61,20 +61,20 @@ func Train(Network network.Net, Doing graphical.GoTo, final int, TL file.Learn, 
 	var savefile string
 	var x []float64
 
-	for i := 0; i < len(TL.Datas) / 2; i++ {
+	for i := 0; i < len(TL.Datas); i++ {
 
 		for e := 0; e < len(TL.Datas[i]); e++ {
 			x = append(x, TL.Datas[i][e])
 		}
 	}
 
-	x_train := mat.NewDense(len(TL.Datas[0]), len(TL.Datas) / 2, x)
-	y_train := mat.NewDense(1, len(TL.Response) / 2, TL.Response[0:len(TL.Response) / 2])
+	x_train := mat.NewDense(len(TL.Datas[0]), len(TL.Datas), x)
+	y_train := mat.NewDense(final, len(TL.Response) / final, TL.Response)
 
 	epochs := 250
 	learning_rate := 0.01
 
-	err := network.Train(x_train, y_train, epochs, learning_rate, Network, final, &SaveData, Doing.Decrease)
+	err := network.Train(x_train, y_train, epochs, learning_rate, Network, &SaveData, Doing.Decrease)
 	for i := 0; i < len(Network.Layer); i++ {
 
 		tmp, tmp1 := Network.Layer[i].GetData()
