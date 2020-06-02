@@ -34,7 +34,6 @@ Bonus :
 
 a faire :
 
-	softmax (au niveau du backPropagation)
 	a fonction d’erreur d’entropie croisée binaire (pour la prediction)
 	early stoping
 

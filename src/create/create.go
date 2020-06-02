@@ -50,7 +50,7 @@ func CUSTOM(Network *network.Net) (int) {
 	hidden.Init(&AllActive[0], activation.Tanh, activation.Tanh_prime)
 	hidden.Init(&AllActive[1], activation.Tanh, activation.Tanh_prime)
 	hidden.Init(&AllActive[2], activation.Tanh, activation.Tanh_prime)
-	hidden.Init(&AllActive[3], activation.Tanh, activation.Tanh_prime)
+	hidden.Init(&AllActive[3], activation.Tanh, activation.Softmax)
 
 	network.AddFc(Network, AllInput[0])
 	network.AddAc(Network, AllActive[0])

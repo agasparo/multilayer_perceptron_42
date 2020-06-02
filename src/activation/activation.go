@@ -52,3 +52,40 @@ func CreateMat(line, cols int, nb float64) (*mat.Dense) {
     }
     return (mat.NewDense(line, cols, data))
 }
+
+func MaxFloatInSlice(fls []float64) (m float64) {
+
+    m = fls[len(fls)-1]
+    for _, e := range fls {
+        if m <= e {
+            m = e
+        }
+    }
+    return m
+}
+
+func SumExpC(fls []float64) (float64) {
+    var s float64 = 0
+    c := MaxFloatInSlice(fls)
+    for _, e := range fls {
+        s += math.Exp(e - c)
+    }
+    return (s)
+}
+
+func Softmax(matr *mat.Dense) (*mat.Dense) {
+
+    var sm []float64
+
+    fls := matr.RawMatrix().Data
+    fx, fy := matr.Dims()
+
+    c := MaxFloatInSlice(fls)
+    sum_exp_c := SumExpC(fls)
+    sm = make([]float64, len(fls))
+
+    for i, v := range fls {
+        sm[i] = math.Exp(v - c) / sum_exp_c
+    }
+    return (mat.NewDense(fx, fy, sm))
+}
