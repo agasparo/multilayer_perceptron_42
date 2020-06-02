@@ -116,8 +116,6 @@ func Predict(Network network.Net, TL file.Learn) {
 
 	fmt.Println("Prediction : ")
 
-	fmt.Println(pred)
-	return
 	var percent[]int
 	percent = append(percent, 0, 0, 0)
 
