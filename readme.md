@@ -28,6 +28,9 @@ Bonus :
 		affichage dans le terminal
 		plusieurs metriques
 
+	early stoping :
+		patience
+
 	sauvegarde des donnees lors de l'apprentissage
 	sauvegarde auto si erreur < erreur savgarder
 	demande de sauvegarde si erreur > erreur sauvgarder
@@ -35,7 +38,6 @@ Bonus :
 a faire :
 
 	a fonction d’erreur d’entropie croisée binaire (pour la prediction)
-	early stoping
 
 
 
