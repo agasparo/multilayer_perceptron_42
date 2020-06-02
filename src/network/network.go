@@ -65,9 +65,10 @@ func Predict(Self *Net, x *mat.Dense) (*mat.Dense) {
 
 func Train(x, y *mat.Dense, epochs int, learning_rate float64, Self Net, S *Save, lr_algo int) (float64) {
 
-	var err, err1, accuracy float64
+	var err, err1, accuracy, anc_err float64
 	var outpout, error *mat.Dense
 
+	patience := 20.0
 	timeDeb := time.Now()
 	data_x := x.RawMatrix().Data
 	data_y := y.RawMatrix().Data
@@ -109,9 +110,27 @@ func Train(x, y *mat.Dense, epochs int, learning_rate float64, Self Net, S *Save
 		S.Lr = append(S.Lr, learning_rate)
 		fmt.Printf("epoch %d / %d error = %f, val_loss = %f, accuracy = %f, learning rate : %f, time pass : %f secondes\n", i + 1, epochs, err, err1, accuracy, learning_rate, time.Now().Sub(timeDeb).Seconds())
 		learning_rate = LearningRate(lr_base, float64(i + 1), learning_rate, float64(epochs),  lr_algo)
+		if earlyStopping(anc_err, err, patience) {
+			S.Epochs = epochs
+			return (err)
+		}
+		anc_err = err
 	}
 	S.Epochs = epochs
 	return (err)
+}
+
+func earlyStopping(anc_error, error, patience float64) (bool) {
+
+	if anc_error < error && anc_error != 0 {
+		if patience == 0 {
+			return (true)
+		}
+		patience--
+		return (false)
+	}
+	patience = 20.0
+	return (false)
 }
 
 func ValLossAccu(outpout_s int, Self Net, t float64, data_x, data_y []float64, lines, samples, y_lines int) (float64, float64) {
