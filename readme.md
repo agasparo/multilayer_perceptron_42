@@ -37,7 +37,6 @@ Bonus :
 
 a faire :
 
-	a fonction d’erreur d’entropie croisée binaire (pour la prediction)
 	trouver le meilleur res du reseau
 
 

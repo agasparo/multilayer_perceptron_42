@@ -14,6 +14,7 @@ import (
 	"os"
 	"maths"
 	"graphs"
+	"math"
 )
 
 func main() {
@@ -129,6 +130,7 @@ func Predict(Network network.Net, TL file.Learn) {
     w.Flush()
 
     Response.PrintVerboseStep(fmt.Sprintf("Accuracy of neuronal network : %f%s", (float64(percent[0]) + float64(percent[1])) / float64(len(x_data)) * 100, " %"))
+    Response.PrintVerboseStep(fmt.Sprintf("binary crossentropy of neuronal network : %f", binary_crossentropy(real_data, x_data)))
     tab := []string{ "Green", "Orange", "Red" }
     w = new(tabwriter.Writer)
     w.Init(os.Stdout, 0, 8, 2, '\t', tabwriter.Debug|tabwriter.AlignRight)
@@ -138,6 +140,17 @@ func Predict(Network network.Net, TL file.Learn) {
 	}
     fmt.Fprintln(w)
     w.Flush()
+}
+
+func binary_crossentropy(y_true, y_pred []float64) (float64) {
+
+	var res []float64
+
+	for i := 0; i < len(y_true); i++ {
+
+		res = append(res, -1.00 / float64(len(y_true)) * (y_true[i] * math.Log(math.Abs(y_pred[i])) + (1.00 - y_true[i]) * math.Log(1.00 - maths.Abs(y_pred[i]))))
+	}
+	return (maths.Mean(res))
 }
 
 func Cmp(nb, nb1 float64) (string) {
