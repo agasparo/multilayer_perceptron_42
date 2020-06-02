@@ -45,12 +45,12 @@ func CUSTOM(Network *network.Net) (int) {
 	input.Init(&AllInput[0], 30, 50)
 	input.Init(&AllInput[1], 50, 60)
 	input.Init(&AllInput[2], 60, 70)
-	input.Init(&AllInput[3], 70, 2)
+	input.Init(&AllInput[3], 70, 1)
 
 	hidden.Init(&AllActive[0], activation.Tanh, activation.Tanh_prime)
 	hidden.Init(&AllActive[1], activation.Tanh, activation.Tanh_prime)
 	hidden.Init(&AllActive[2], activation.Tanh, activation.Tanh_prime)
-	hidden.Init(&AllActive[3], activation.Softmax, activation.Softmax)
+	hidden.Init(&AllActive[3], activation.Tanh, activation.Softmax)
 
 	network.AddFc(Network, AllInput[0])
 	network.AddAc(Network, AllActive[0])
@@ -63,5 +63,5 @@ func CUSTOM(Network *network.Net) (int) {
 
 	network.Use(Network, loss.Mse, loss.Mse_prime)
 
-	return 2
+	return 1
 }

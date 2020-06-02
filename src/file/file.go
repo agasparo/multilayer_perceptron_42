@@ -61,12 +61,10 @@ func ReadFile(file_name string, TL *Learn) (int) {
 			
 			if record[i] == "M" || record[i] == "B" {
 				b := 0.0
-				a := 1.0
 				if record[i] == "M" {
 					b = 1.0
-					a = 0.0
 				} 
-				TL.Response = append(TL.Response, b, a)
+				TL.Response = append(TL.Response, b)
 			} else {
 				a, _ := strconv.ParseFloat(record[i], 64)
 				Add = append(Add, a)

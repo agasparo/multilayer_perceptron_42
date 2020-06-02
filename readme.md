@@ -34,7 +34,6 @@ Bonus :
 
 a faire :
 
-	diviser le dataset en 2
 	a fonction d’erreur d’entropie croisée binaire (pour la prediction)
 	early stoping
 

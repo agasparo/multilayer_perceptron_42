@@ -6,7 +6,6 @@ import (
 	"layer"
 	"math"
 	"time"
-	"maths"
 )
 
 type floss func(*mat.Dense, *mat.Dense) (float64)
@@ -59,7 +58,7 @@ func Predict(Self *Net, x *mat.Dense) (*mat.Dense) {
 		for z := 0; z < len(Self.Layer); z++ {
 			outpout = Self.Layer[z].Forward_propagation(outpout)
 		}
-		res = append(res, maths.Max(outpout.RawMatrix().Data))
+		res = append(res, outpout.RawMatrix().Data[0])
 	}
 	return (mat.NewDense(len(res), 1, res))
 }
